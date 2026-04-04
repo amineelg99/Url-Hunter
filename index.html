@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>URL Hunter — أداة تصنيف الروابط</title>
+<title>URL Hunter </title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -584,53 +584,51 @@
     <div class="logo-icon">🎯</div>
     <div>
       <h1>URL Hunter</h1>
-      <div class="subtitle">// أداة تصنيف وتحليل الروابط الأمنية</div>
     </div>
     <div class="badge">RECON TOOL v2.0</div>
   </header>
 
   <div class="input-section">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('text',this)">✏️ إدخال نصي</button>
-      <button class="tab" onclick="switchTab('file',this)">📂 رفع ملف Wordlist</button>
+      <button class="tab active" onclick="switchTab('text',this)">URL</button>
+      <button class="tab" onclick="switchTab('file',this)">Wordlist</button>
     </div>
 
     <div class="tab-panel active" id="panel-text">
-      <div class="input-label">أدخل قائمة الروابط (رابط في كل سطر)</div>
+      <div class="input-label">Enter the list of urls (one url per line)</div>
       <textarea id="urlInput" placeholder="https://example.com/admin/login.php&#10;https://target.com/api/users.json&#10;https://site.com/upload?file=test&#10;https://app.com/index.aspx?id=123&#10;..."></textarea>
     </div>
 
     <div class="tab-panel" id="panel-file">
-      <div class="input-label">ارفع ملف .txt يحتوي على الروابط</div>
+      <div class="input-label">Upload a .txt file containing the urls </div>
       <div class="upload-zone" id="dropZone">
         <input type="file" id="fileInput" accept=".txt,.text,text/plain" onchange="handleFile(this.files[0])">
         <div class="upload-icon">📂</div>
-        <div class="upload-text">اسحب الملف هنا أو <span>اضغط للاختيار</span></div>
-        <div class="upload-text" style="margin-top:4px">يدعم: .txt — wordlist, URLs list</div>
+        <div class="upload-text"><span>Press to select</span></div>
       </div>
       <div id="fileInfo" style="display:none">
         <div class="file-loaded">
           <span>✅</span>
           <span id="fileName"></span>
           <span>—</span>
-          <span id="fileLineCount"></span> رابط
+          <span id="fileLineCount"></span> 
           <button onclick="clearFile()" style="background:none;border:none;color:#ff3d71;cursor:pointer;margin-right:4px">✕</button>
         </div>
       </div>
     </div>
     <div class="controls">
-      <div class="url-count">إجمالي الروابط: <span id="urlCountDisplay">0</span></div>
-      <button class="btn btn-danger" onclick="clearAll()">🗑 مسح</button>
-      <button class="btn btn-primary" onclick="processURLs()">⚡ تحليل الروابط</button>
+      <div class="url-count">All Urls <span id="urlCountDisplay">0</span></div>
+      <button class="btn btn-danger" onclick="clearAll()"> clear</button>
+      <button class="btn btn-primary" onclick="processURLs()">analysis</button>
     </div>
   </div>
 
   <div class="stats-bar" id="statsBar"></div>
   <div class="results-grid" id="resultsGrid"></div>
   <div class="export-section" id="exportSection">
-    <div class="export-label">✅ تم التحليل — <span id="totalMatches">0</span> نتيجة موزعة على الفئات</div>
-    <button class="btn-export" onclick="exportAll()">📥 تصدير الكل (.txt)</button>
-    <button class="btn-export" onclick="exportJSON()">📊 تصدير JSON</button>
+    <div class="export-label">Analysis done <span id="totalMatches">0</span> Results distributed across categories</div>
+    <button class="btn-export" onclick="exportAll()"> Export all (.txt)</button>
+    <button class="btn-export" onclick="exportJSON()">📊 Export all (JSON)</button>
   </div>
 
 </div>
@@ -684,7 +682,7 @@ const CATEGORIES = [
     icon: '🔌',
     title: 'API Discovery',
     color: '#00e5ff',
-    pattern: /\.(json|xml|graphql|gql)(\?|$)/i,
+    pattern: /\.(json|xml|graphql|gql|api)(\?|$)/i,
     desc: 'API Endpoints'
   },
   {
@@ -692,7 +690,7 @@ const CATEGORIES = [
     icon: '⚙️',
     title: 'Backend Files',
     color: '#bf5af2',
-    pattern: /\.(php|asp|aspx|jsp|cfm|cgi)(\?|$)/i,
+    pattern: /\b(\.env|\.env\.[a-z0-9]+|config\.(js|json|yml|yaml|ts)|settings\.(py|js)|local\.config|appsettings(\.Development|\.Production)?\.json|database\.(yml|yaml|json)|docker-compose\.(yml|yaml)|Dockerfile|\.gitconfig|\.git-credentials|id_rsa|id_ed25519|\.ssh\/|authorized_keys|known_hosts|web\.config|php\.ini|httpd\.conf|nginx\.conf|.htaccess|.htpasswd|backup(\.sql|\.zip|\.tar\.gz|\.bak)?|dump(\.sql|\.db)?|db\.sqlite3|storage\.log|error\.log|access\.log|debug\.log|secret(s)?\.(txt|json|yml|yaml|env)|credentials\.(json|yml|yaml|txt)|serviceAccountKey\.json|firebase-adminsdk.*\.json)\b/i,
     desc: 'Backend'
   },
   {
@@ -748,7 +746,7 @@ const CATEGORIES = [
     icon: '☁️',
     title: 'Cloud Secrets',
     color: '#ff9500',
-    pattern: /aws|s3|bucket|gcp|azure|vault|token|apikey|secret/i,
+    pattern: /\b(AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|AIza[0-9A-Za-z\-_]{35}|aws[_-]?secret[_-]?access[_-]?key[_-]?id\s*[:=]\s*['"]?[A-Z0-9\/+=]{40}['"]?|aws[_-]?access[_-]?key[_-]?id\s*[:=]\s*['"]?AKIA[0-9A-Z]{16}['"]?|aws[_-]?session[_-]?token\s*[:=]\s*['"]?[A-Za-z0-9\/+=]{50,}['"]?|xox[baprs]-[0-9A-Za-z-]{10,}|gh[pousr]_[A-Za-z0-9_]{36}|sk_live_[0-9a-zA-Z]{24,}|rk_live_[0-9a-zA-Z]{24,}|firebase[_-]?service[_-]?account|type\s*:\s*"service_account"|private[_-]?key\s*[:=]\s*"-----BEGIN|client[_-]?secret\s*[:=]\s*['"]?[A-Za-z0-9\-_]{16,}['"]?|refresh[_-]?token\s*[:=]\s*['"]?[A-Za-z0-9\-_\.]{20,}['"]?|access[_-]?token\s*[:=]\s*['"]?[A-Za-z0-9\-_\.]{20,}['"]?|authorization\s*:\s*bearer\s+[A-Za-z0-9\-_\.]{20,}|mongodb(\+srv)?:\/\/[^\s'"]+|postgres(ql)?:\/\/[^\s'"]+|mysql:\/\/[^\s'"]+|redis:\/\/[^\s'"]+)\b/i,
     desc: 'Cloud'
   },
   {
@@ -764,7 +762,7 @@ const CATEGORIES = [
     icon: '🔑',
     title: 'Regex Secrets (JS/Code)',
     color: '#bf5af2',
-    pattern: /api[_-]?key|token|secret|password/i,
+    pattern: /\b(api[_-]?key|x-api-key|client[_-]?(key|id|secret)|secret[_-]?key|app[_-]?secret|private[_-]?key|public[_-]?key|access[_-]?token|auth[_-]?token|authorization|bearer|jwt(_token)?|id[_-]?token|refresh[_-]?token|session(_id|id|token)?|user[_-]?token|admin[_-]?token|csrf[_-]?token|xsrf[_-]?token|password|passwd|pwd|db[_-]?password|auth[_-]?(key|secret)|app[_-]?key|service[_-]?key|firebase[_-]?(api[_-]?key|key|secret)|aws[_-]?(access[_-]?key[_-]?id|secret[_-]?access[_-]?key|session[_-]?token)|stripe[_-]?(key|secret|public[_-]?key)|google[_-]?api[_-]?key|gcp[_-]?(key|secret)|github[_-]?token|gitlab[_-]?token|oauth[_-]?(token|access[_-]?token|refresh[_-]?token)|slack[_-]?token|twilio[_-]?(api[_-]?key|auth[_-]?token)|mailgun[_-]?api[_-]?key|sendgrid[_-]?api[_-]?key|db[_-]?(host|user(name)?|pass(word)?)|database[_-]?url|connection[_-]?string|conn[_-]?string|encryption[_-]?key|enc[_-]?key|signing[_-]?key|signature[_-]?key|webhook[_-]?(secret|token)|s3[_-]?(key|secret|bucket[_-]?key)|privateToken|accessKey|secretAccessKey|credentials|creds|authdata|login[_-]?token|remember[_-]?token|api[_-]?token|app[_-]?token|user[_-]?api[_-]?key|internal[_-]?(api[_-]?key|token)|config[_-]?(key|secret|token))\b/i,
     desc: 'Secrets'
   }
 ];
@@ -790,7 +788,7 @@ function handleFile(file) {
     document.getElementById('fileName').textContent = file.name;
     document.getElementById('fileLineCount').textContent = lines.length;
     document.getElementById('urlCountDisplay').textContent = lines.length;
-    showToast(`✅ تم تحميل ${lines.length} رابط من ${file.name}`);
+    showToast(` Downloaded ${lines.length} ${file.name}`);
   };
   reader.readAsText(file, 'UTF-8');
 }
@@ -828,11 +826,11 @@ document.getElementById('urlInput').addEventListener('input', function() {
 function processURLs() {
   let urls = [];
   if (activeTab === 'file') {
-    if (loadedFileURLs.length === 0) { showToast('⚠️ الرجاء رفع ملف أولاً'); return; }
+    if (loadedFileURLs.length === 0) { showToast(' Please upload a file first'); return; }
     urls = loadedFileURLs;
   } else {
     const raw = document.getElementById('urlInput').value.trim();
-    if (!raw) { showToast('⚠️ الرجاء إدخال روابط أولاً'); return; }
+    if (!raw) { showToast('Please enter links first '); return; }
     urls = raw.split('\n').map(u => u.trim()).filter(u => u.length > 0);
   }
   resultsData = {};
@@ -890,16 +888,16 @@ function renderResults() {
       <div class="card-header" onclick="toggleCard(this)">
         <span class="card-icon">${cat.icon}</span>
         <span class="card-title" style="color:${cat.color}">${cat.title}</span>
-        <span class="card-count" style="color:${countColor};background:${countBg}">${matches.length} رابط</span>
+        <span class="card-count" style="color:${countColor};background:${countBg}">${matches.length} urls</span>
         <div class="card-actions">
-          <button class="action-btn" onclick="copyResults('${cat.id}',event)" title="نسخ">📋</button>
-          <button class="action-btn" onclick="downloadCategory('${cat.id}',event)" title="تحميل">💾</button>
+          <button class="action-btn" onclick="copyResults('${cat.id}',event)" title="copies">📋</button>
+          <button class="action-btn" onclick="downloadCategory('${cat.id}',event)" title="download">💾</button>
           <span class="chevron open">▼</span>
         </div>
       </div>
       <div class="card-body" id="body-${cat.id}">
         ${matches.length === 0
-          ? '<div class="empty-card">// لا توجد نتائج</div>'
+          ? '<div class="empty-card">// No results found</div>'
           : matches.map((url, idx) => `
               <div class="url-item">
                 <span class="url-num">${String(idx+1).padStart(2,'0')}</span>
@@ -934,18 +932,18 @@ function toggleCard(header) {
 function copyResults(id, e) {
   e.stopPropagation();
   const urls = resultsData[id] || [];
-  if (urls.length === 0) { showToast('لا توجد روابط للنسخ'); return; }
+  if (urls.length === 0) { showToast('There are no links to copy'); return; }
   navigator.clipboard.writeText(urls.join('\n'));
-  showToast(`✅ تم نسخ ${urls.length} رابط`);
+  showToast(` has been copied ${urls.length} `);
 }
 
 function downloadCategory(id, e) {
   e.stopPropagation();
   const cat = CATEGORIES.find(c => c.id === id);
   const urls = resultsData[id] || [];
-  if (urls.length === 0) { showToast('لا توجد روابط للتحميل'); return; }
+  if (urls.length === 0) { showToast('There are no links to download'); return; }
   downloadFile(urls.join('\n'), `${id}.txt`);
-  showToast(`💾 تم تحميل ${id}.txt`);
+  showToast(` Downloaded ${id}.txt`);
 }
 
 function exportAll() {
@@ -958,7 +956,7 @@ function exportAll() {
     }
   });
   downloadFile(content.trim(), 'url_hunter_results.txt');
-  showToast('📥 تم تصدير جميع النتائج');
+  showToast(' All results have been exported (.txt)');
 }
 
 function exportJSON() {
@@ -967,7 +965,7 @@ function exportJSON() {
     out[cat.id] = { title: cat.title, count: (resultsData[cat.id]||[]).length, urls: resultsData[cat.id]||[] };
   });
   downloadFile(JSON.stringify(out, null, 2), 'url_hunter_results.json');
-  showToast('📊 تم تصدير JSON');
+  showToast(' All results have been exported (JSON)');
 }
 
 function clearAll() {
